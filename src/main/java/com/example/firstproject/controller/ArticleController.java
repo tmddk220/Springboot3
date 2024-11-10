@@ -26,16 +26,13 @@ public class ArticleController {
     @PostMapping("/articles/create")
     public String createArticle(ArticleForm form) { // 폼 데이터를 DTO로 받기
         log.info(form.toString());                  // 로깅 코드 추가
-        // System.out.println(form.toString());
         // 1. DTO를 엔티티로 변환
         Article article = form.toEntity();
         log.info(article.toString());               // 로깅 코드 추가
-        // System.out.println(article.toString());
         // 2. 리파지터리로 엔티티를 DB에 저장
         Article saved = articleRepository.save(article);
         log.info(saved.toString());                 // 로깅 코드 추가
-        // System.out.println(saved.toString());
-        return "";
+        return "redirect:/articles/" + saved.getId();
     }
     @GetMapping("/articles/{id}")
     public String show(@PathVariable Long id, Model model) {
