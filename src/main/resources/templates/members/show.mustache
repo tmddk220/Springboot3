@@ -1,0 +1,25 @@
+{{>layouts/header}}
+<table class="table">
+<thead>
+    {{#member}}
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Email</th>
+        <th scope="col">Password</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>{{id}}</th>
+        <td>{{Email}}</td>
+        <td>{{Password}}</td>
+    </tr>
+    {{/member}}
+</tbody>
+</table>
+<a href="/members/{{member.id}}/edit" class="btn btn-primary">수정하기</a>
+<a href="/members/{{member.id}}/delete" class="btn btn-danger">삭제하기</a>
+
+<a href="/members">Go to Member List</a>
+{{>layouts/footer}}
+

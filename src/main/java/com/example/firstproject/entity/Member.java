@@ -4,35 +4,23 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
+@Getter
 public class Member {
     @Id
     @GeneratedValue
-    private Long id;
+    Long id;
     @Column
-    private String email;
+    String email;
     @Column
-    private String password;
+    String password;
 
-    // Member 생성자 추가
-
-    public Member(Long id, String email, String password) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-    }
-
-    public Member(){}
-
-    // toString() 메서드 추가
-
-    @Override
-    public String toString() {
-        return "Member{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
 }
