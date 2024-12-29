@@ -1,11 +1,13 @@
 package com.example.firstproject.service;
 
 import com.example.firstproject.dto.CommentDto;
+import com.example.firstproject.entity.Article;
 import com.example.firstproject.entity.Comment;
 import com.example.firstproject.repository.ArticleRepository;
 import com.example.firstproject.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,5 +40,19 @@ public class CommentService {
                 .stream()   // 스트림: 컬렉션이나 리스트에 저장된 요소들을 하나씩 참조하며 반복 처리할 때 사용
                 .map(comment -> CommentDto.createCommentDto(comment))   // 스트림화 한 댓글 엔티티 목록을 DTO로 변환
                 .collect(Collectors.toList());  // List<CommentDto> 타입을 반환해야 함, Stream<CommentDto> 타입 -> 리스트 자료형
+    }
+
+    @Transactional
+    public CommentDto create(Long articleId, CommentDto dto) {
+        // 1. 게시글 조회 및 예외 발생
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(()->new IllegalArgumentException("댓글 생성 실패!" +
+                        "대상 게시글이 없습니다."));
+        // 2. 댓글 엔티티 생성
+        Comment comment = Comment.createComment(dto, article);
+        // 3. 댓글 엔티티를 DB에 저장
+        Comment created = commentRepository.save(comment);
+        // 4. DTO로 변환해 반환
+        return CommentDto.createCommentDto(created);
     }
 }
